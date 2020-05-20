@@ -1,20 +1,34 @@
 module SDLang
   module AST
-    IntLit = Struct.new(:int) do
+    Integer = Struct.new(:int) do
       def eval; int.to_i; end
     end
 
-    StringLit = Struct.new(:string) do
+    String = Struct.new(:string) do
       def eval; string.to_s; end
     end
 
-    Tag = Struct.new(:name, :values, :attributes, :body) do
+    Boolean = Struct.new(:value) do
+      def eval; value; end
+    end
+
+    Tag = Struct.new(:name, :namespace, :values, :attributes, :children) do
       def eval
         Tag.new(
           name.to_s,
+          namespace.to_s,
           values.map(&:eval),
           attributes.map(&:eval),
-          body
+          children.nil? ? nil : children.map(&:eval)
+        )
+      end
+    end
+
+    Attribute = Struct.new(:name, :value) do
+      def eval
+        Attribute.new(
+          name.to_s,
+          value.eval
         )
       end
     end

@@ -50,4 +50,10 @@ class ParserTest < Minitest::Test
     assert_equal('lines', result.dig(1, :identifier))
     assert_equal('2', result.dig(1, :values, 0, :integer).to_s)
   end
+
+  # tests example from sdlang.org
+  def test_website_example
+    input = File.read(File.join(__dir__, 'fixtures', 'website_example.sdl'))
+    result = parse_sdl(input)
+  end
 end

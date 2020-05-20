@@ -44,15 +44,21 @@ module SDLang
       (match('[0-9$.-]').absent? >> match('\w').repeat(1))
         .as(:identifier)
     }
-    rule(:attribute) { ident >> str('=') >> value }
-    rule(:namespace) { ident.as(:namespace) >> str(':') }
-    rule(:tag) {
-      (value | (namespace.maybe >> ident)) >> ws >>
+    rule(:attribute) { ident >> str('=') >> value.as(:value) }
+    rule(:namespace) { ident >> str(':') }
+    rule(:identifier) { namespace.maybe.as(:namespace) >> ident }
+    rule(:regular_tag) {
+      identifier >> ws >>
         (value >> ws).repeat.as(:values) >>
         (attribute >> ws).repeat.as(:attributes) >>
-        (str('{') >> tags >> str('}')).maybe.as(:body)
+        (str('{') >> tags >> str('}')).maybe.as(:children)
     }
-    rule(:eof) { any.absent? }
+    rule(:anonymous_tag) {
+        (value >> ws).repeat(1).as(:values) >>
+        (attribute >> ws).repeat.as(:attributes) >>
+        (str('{') >> tags >> str('}')).maybe.as(:children)
+    }
+    rule(:tag) { regular_tag | anonymous_tag }
     rule(:tag_separator) { semicolon | str('\n') }
     rule(:tags) {
       ws >> (tag >> tag_separator.maybe >> ws).repeat

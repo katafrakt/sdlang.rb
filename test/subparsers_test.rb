@@ -108,6 +108,10 @@ class SubparsersTest < Minitest::Test
     assert_parses(parser.tag, 'test:name "simple_tag_with_namespace"')
   end
 
+  def test_tag_with_multiple_values
+    assert_parses(parser.tag, 'years 1996 1998 2001 2028')
+  end
+
   # tags
   def test_tags_empty_doc
     assert_parses(parser.tags, '')
@@ -121,5 +125,6 @@ class SubparsersTest < Minitest::Test
 
   def test_tags_two_simple
     assert_parses(parser.tags, "version 1\nrevision 100\n")
+    assert_parses(parser.tags, "version 1\nrevision 100")
   end
 end
