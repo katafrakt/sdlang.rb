@@ -1,17 +1,17 @@
-lib = File.expand_path("lib", __dir__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "sdlang/version"
+require 'sdlang/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "sdlang"
+  spec.name          = 'sdlang'
   spec.version       = Sdlang::VERSION
-  spec.authors       = ["Paweł Świątkowski"]
-  spec.email         = ["katafrakt@vivaldi.net"]
+  spec.authors       = ['Paweł Świątkowski']
+  spec.email         = ['katafrakt@vivaldi.net']
 
   spec.summary       = %q{Write a short summary, because RubyGems requires one.}
 #  spec.description   = %q{TODO: Write a longer description or delete this line.}
 #  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
-  spec.license       = "MIT"
+  spec.license       = 'MIT'
 
 #  spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'parslet'
 
-  spec.add_development_dependency "bundler", "~> 2.0"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency 'bundler', "~> 2.0"
+  spec.add_development_dependency 'rake', ">= 12.3.3"
   spec.add_development_dependency 'minitest'
 end
