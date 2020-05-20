@@ -1,38 +1,63 @@
 require 'parslet'
 
 module SDLang
+  # heavily inspired by sdlang for Rust
   class Parser < Parslet::Parser
-    root(:definitions)
-
     # tokens
     rule(:dbl_quot) { str('"') }
     rule(:semicolon) { str(';') }
 
-    # whitespace
-    rule(:space)  { match('\s').repeat(1) }
-    rule(:space?) { space.maybe }
-    rule(:newl)   { match('\n') }
+    rule(:comment) {
+      str('/*') >> (str('*/').absent? >> any).repeat >> str('*/') |
+        (str('//') | str('#') | str('--')) >> (str("\n").absent? >> any).repeat >> str("\n").maybe
+    }
+    rule(:ws) { (match('\s') | comment).repeat }
 
-    # actual language parts
-    rule(:empty_line)         { newl }
-    rule(:string)             { double_quoted_string }
-    rule(:integer)            { match('[0-9]').repeat(1).as(:int) >> space? }
-    rule(:value)              { string | integer }
-    rule(:tag_def)            { space? >> identifier.as(:tag_name) >> space? >> value.as(:value) >> space? }
-    rule(:expression)         { (space? >> expression_end) | (tag_def >> expression_end) }
-    rule(:expression_end)     { space? >> (newl | semicolon).maybe }
-    rule(:definitions)        { (empty_line | tag_def).repeat }
+    # string
+    rule(:string_special) { match['\0\t\n\r"\\\\'] }
+    rule(:escaped_special) { str('\\') >> match['0tnr"\\\\'] }
+    rule(:dbl_quoted_string) { str('"') >> (escaped_special | string_special.absent? >> any).repeat.as(:string) >> str('"') }
+    rule(:fenced_string) { str('`') >> (str('`').absent? >> any).repeat.as(:string) >> str('`') }
+    rule(:string) { dbl_quoted_string | fenced_string }
 
-    # helper stuff
-    rule(:identifier) {
-      (match('[a-zA-Z]') >> match('[a-zA-Z0-9_-]').repeat).as(:identifier) >> space?
+    # integer
+    rule(:digit) { match('[0-9]') }
+    rule(:integer) {
+      (
+        str('-').maybe >> (
+          str('0') | (match('[1-9]') >> digit.repeat))
+      ).as(:integer)
     }
 
-    rule(:double_quoted_string) {
-      str('"') >> (
-        str('\\') >> any |
-        str('"').absent? >> any
-      ).repeat.as(:string) >> str('"') >> space?
+    # boolean
+    rule(:bool_true) { str('true') | str('on') }
+    rule(:bool_false) { str('false') | str('off') }
+    rule(:boolean) { bool_true.as(:true) | bool_false.as(:false) }
+
+    rule(:null) { str('null') }
+
+    rule(:value) {
+      string | boolean | null | integer
     }
+
+    rule(:ident) {
+      (match('[0-9$.-]').absent? >> match('\w').repeat(1))
+        .as(:identifier)
+    }
+    rule(:attribute) { ident >> str('=') >> value }
+    rule(:namespace) { ident.as(:namespace) >> str(':') }
+    rule(:tag) {
+      (value | (namespace.maybe >> ident)) >> ws >>
+        (value >> ws).repeat.as(:values) >>
+        (attribute >> ws).repeat.as(:attributes) >>
+        (str('{') >> tags >> str('}')).maybe.as(:body)
+    }
+    rule(:eof) { any.absent? }
+    rule(:tag_separator) { semicolon | str('\n') }
+    rule(:tags) {
+      ws >> (tag >> tag_separator.maybe >> ws).repeat
+    }
+
+    root(:tags)
   end
 end

@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'sdlang'
+require_relative 'test_helper'
 
 class TransformTest < Minitest::Test
   def transform(string)
@@ -13,12 +14,12 @@ class TransformTest < Minitest::Test
   def test_integer
     result = transform('version 2')
     tag = result.first
-    assert_equal(2, tag.value)
+    assert_equal([2], tag.values)
   end
 
   def test_string
     result = transform('sdlang "yes"')
     tag = result.first
-    assert_equal('yes', tag.value)
+    assert_equal(['yes'], tag.values)
   end
 end

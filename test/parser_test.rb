@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'sdlang'
 require 'parslet/convenience'
+require_relative 'test_helper'
 
 class ParserTest < Minitest::Test
   def parse_sdl(string)
@@ -18,11 +19,11 @@ class ParserTest < Minitest::Test
     assert_equal(1, result.length)
 
     tag = result.first
-    tag_name = tag[:tag_name]
-    value = tag[:value]
+    tag_name = tag[:identifier]
+    value = tag[:values].first
 
-    assert_equal('sdlang', tag_name[:identifier])
-    assert_equal('yes', value[:string])
+    assert_equal('sdlang', tag_name)
+    assert_equal('yes', value[:string].to_s)
   end
 
   def test_simple_tag_integer_value
@@ -30,11 +31,11 @@ class ParserTest < Minitest::Test
     assert_equal(1, result.length)
 
     tag = result.first
-    tag_name = tag[:tag_name]
-    value = tag[:value]
+    tag_name = tag[:identifier]
+    value = tag[:values].first
 
-    assert_equal('version', tag_name[:identifier])
-    assert_equal('2', value[:int])
+    assert_equal('version', tag_name)
+    assert_equal('2', value[:integer].to_s)
   end
 
   def test_two_tags
@@ -45,8 +46,8 @@ class ParserTest < Minitest::Test
     result = parse_sdl(input)
     assert_equal(2, result.length)
 
-    assert_equal('sdlang', result.dig(0, :tag_name, :identifier))
-    assert_equal('lines', result.dig(1, :tag_name, :identifier))
-    assert_equal('2', result.dig(1, :value, :int))
+    assert_equal('sdlang', result.dig(0, :identifier))
+    assert_equal('lines', result.dig(1, :identifier))
+    assert_equal('2', result.dig(1, :values, 0, :integer).to_s)
   end
 end
