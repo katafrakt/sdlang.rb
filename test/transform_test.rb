@@ -27,6 +27,28 @@ class TransformTest < Minitest::Test
     assert_equal(['yes'], tag.values)
   end
 
+  def test_date
+    result = transform('birth_day 1990/04/02')
+    tag = result.first
+    value = tag.values.first
+    assert_kind_of(Date, value)
+    assert_equal(Date.new(1990, 4, 2), value)
+  end
+
+  def test_time_with_timezone_3letters
+    result = transform('daily 23:59:00-EST')
+    time = result.first.values.first
+    assert_equal(TZInfo::TimeWithOffset, time.class)
+    assert_equal(Time.new(time.year, time.month, time.day, 23, 59, 0, '-05:00'), time)
+  end
+
+  def test_date_time_with_timezone
+    result = transform('created_at 2020/05/16 23:39:00-Europe/Prague')
+    time = result.first.values.first
+    assert_equal(TZInfo::DateTimeWithOffset, time.class)
+    assert_equal(DateTime.new(time.year, time.month, time.day, 23, 39, 0, '+02:00'), time)
+  end
+
   def test_website_example
     input = File.read(File.join(__dir__, 'fixtures', 'website_example.sdl'))
     result = transform(input)

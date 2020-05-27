@@ -62,6 +62,11 @@ class SubparsersTest < Minitest::Test
     assert_parses(parser, 'false')
   end
 
+  # date
+  def test_date
+    assert_parses(parser.date, '2017/10/11')
+  end
+
   # null
   def test_null
     assert_parses(parser.null, 'null')

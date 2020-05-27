@@ -8,6 +8,21 @@ module SDLang
     rule(string: simple(:string)) { SDLang::AST::String.new(string) }
     rule(true: simple(:true)) { SDLang::AST::Boolean.new(true) }
     rule(false: simple(:false)) { SDLang::AST::Boolean.new(false) }
+    rule(date: simple(:date)) { SDLang::AST::Date.new(date) }
+    rule(datetime: simple(:datetime)) { SDLang::AST::DateTime.new(datetime) }
+
+    # time
+    rule(
+      time: simple(:time),
+      timezone: simple(:timezone)
+    ) { SDLang::AST::Time.new(time, timezone) }
+
+    # datetime
+    rule(
+      date: simple(:date),
+      time: simple(:time),
+      timezone: simple(:timezone)
+    ) { SDLang::AST::DateTime.new(date, time, timezone)}
 
     # regular tag
     rule(

@@ -29,6 +29,21 @@ module SDLang
       ).as(:integer)
     }
 
+    # date and time
+    rule(:datetime) { (date >> ws >> time) }
+    rule(:date) {
+      (match('[0-9]').repeat(4,4) >> str('/') >>
+        match('[0-9]').repeat(2,2) >> str('/') >>
+        match('[0-9]').repeat(2,2)).as(:date)
+    }
+    rule(:msecs) { str('.') >> match('[0-9]').repeat(3,3) }
+    rule(:timezone) { str('-') >> match('[a-zA-Z0-9:/-]').repeat(1).as(:timezone) }
+    rule(:time) {
+      ((match('[0-9]').repeat(1,2) >> str(':') >>
+       match('[0-9]').repeat(2,2) >> str(':') >>
+       match('[0-9]').repeat(2,2) >> msecs.maybe).as(:time) >> timezone.maybe)
+    }
+
     # boolean
     rule(:bool_true) { str('true') | str('on') }
     rule(:bool_false) { str('false') | str('off') }
@@ -37,6 +52,7 @@ module SDLang
     rule(:null) { str('null') }
 
     rule(:value) {
+      datetime | date | time |
       string | boolean | null | integer
     }
 
