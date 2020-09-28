@@ -1,6 +1,6 @@
 require 'sdlang/version'
-require 'sdlang/parser'
-require 'sdlang/transform'
+require 'sdlang/parsing/parser'
+require 'sdlang/parsing/transform'
 
 module SDLang
 end

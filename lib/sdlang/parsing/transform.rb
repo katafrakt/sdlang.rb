@@ -1,5 +1,5 @@
 require 'parslet'
-require 'sdlang/ast'
+require 'sdlang/parsing/ast'
 
 module SDLang
   class Transform < Parslet::Transform
