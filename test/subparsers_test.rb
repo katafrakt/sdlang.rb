@@ -49,7 +49,7 @@ class SubparsersTest < Minitest::Test
   end
 
   def test_multi_comment_nested
-    skip(parser.comment, '/* abc /* */ agf */')
+    assert_parses(parser.comment, '/* abc /* */ agf */')
   end
 
   # bool

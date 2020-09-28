@@ -7,10 +7,12 @@ module SDLang
     rule(:dbl_quot) { str('"') }
     rule(:semicolon) { str(';') }
 
-    rule(:comment) {
-      str('/*') >> (str('*/').absent? >> any).repeat >> str('*/') |
-        (str('//') | str('#') | str('--')) >> (str("\n").absent? >> any).repeat >> str("\n").maybe
-    }
+    rule(:comment) { one_line_comment | ml_comment }
+    rule(:one_line_comment) { (str('//') | str('#') | str('--')) >> (str("\n").absent? >> any).repeat >> str("\n").maybe }
+    rule(:ml_comment_start) { str('/*') }
+    rule(:ml_comment_end) { str('*/') }
+    rule(:not_ml_comment) { ml_comment_start.absent? >> ml_comment_end.absent? >> any }
+    rule(:ml_comment) { ml_comment_start >> (not_ml_comment | ml_comment).repeat >> ml_comment_end }
     rule(:ws) { (match('\s') | comment).repeat }
 
     # string
