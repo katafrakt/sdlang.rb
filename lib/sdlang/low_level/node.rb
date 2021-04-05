@@ -15,14 +15,13 @@ module SDLang
     end
 
     def attribute(name)
-      attributes.fetch(name)
+      attributes[name.to_s]
     end
 
     def values
       @values
     end
 
-    # TODO: handle no value nodes
     def value
       raise MultipleValues if values.length > 1
 

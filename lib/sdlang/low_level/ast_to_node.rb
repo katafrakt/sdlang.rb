@@ -8,7 +8,7 @@ module SDLang
     def self.call(ast)
       SDLang::Node.new(
         name: ast.name,
-        attributes: SDLang::NodeSet.new(map_attributes(ast.attributes)),
+        attributes: map_attributes(ast.attributes),
         namespace: ast.namespace,
         values: ast.values,
         children: SDLang::NodeSet.new(ast.children ? ast.children.map { |child| call(child) } : [])
@@ -18,7 +18,7 @@ module SDLang
     def self.map_attributes(attrs)
       return {} if attrs.nil? || attrs.empty?
 
-      attrs.map { |attr| [attr.name.to_sym, attr.value] }.to_h
+      attrs.map { |attr| [attr.name, attr.value] }.to_h
     end
   end
 end
