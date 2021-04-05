@@ -7,6 +7,7 @@ module SDLang
   module AstToNode
     def self.call(ast)
       SDLang::Node.new(
+        name: ast.name,
         attributes: SDLang::NodeSet.new(map_attributes(ast.attributes)),
         namespace: ast.namespace,
         values: ast.values,

@@ -4,7 +4,10 @@ module SDLang
     # An exception thrown when you are trying to extract value from a multi-value node
     MultipleValues = Class.new(StandardError)
 
-    def initialize(attributes: {}, children: NodeSet.new, namespace: '', values: [])
+    attr_reader :children, :name
+
+    def initialize(name:, attributes: {}, children: NodeSet.new, namespace: '', values: [])
+      @name = name
       @attributes = attributes
       @children = children
       @namespace = namespace
@@ -28,6 +31,6 @@ module SDLang
 
     private
 
-    attr_reader :attributes, :chldren, :namespace
+    attr_reader :attributes, :namespace
   end
 end
