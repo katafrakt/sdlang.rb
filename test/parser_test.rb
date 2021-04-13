@@ -50,4 +50,20 @@ class ParserTest < Minitest::Test
     assert_equal('lines', result.dig(1, :identifier))
     assert_equal('2', result.dig(1, :values, 0, :integer).to_s)
   end
+
+  def test_matrix
+    input = %Q{
+          matrix {
+            1 2 3
+            -1 "a" 0
+          }
+          lines 2
+    }
+    result = parse_sdl(input)
+    pp result
+    assert_equal(2, result.length)
+
+    assert_equal('matrix', result.dig(0, :identifier))
+    assert_equal('lines', result.dig(1, :identifier))
+  end
 end

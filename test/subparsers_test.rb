@@ -102,6 +102,7 @@ class SubparsersTest < Minitest::Test
   # tag
   def test_nameless_tag
     assert_parses(parser.tag, '"test string"')
+    assert_parses(parser.tag, '1 2 3 -4')
   end
 
   def test_simple_tag
@@ -131,5 +132,17 @@ class SubparsersTest < Minitest::Test
   def test_tags_two_simple
     assert_parses(parser.tags, "version 1\nrevision 100\n")
     assert_parses(parser.tags, "version 1\nrevision 100")
+  end
+
+  def test_tags_matrix
+    assert_parses(parser.tags, "matrix {\n1 2 3\n}")
+  end
+
+  def test_tags_nested
+    assert_parses(parser.tags, "book {\nchapter \"First\"\nchapter \"second\"\n}")
+  end
+
+  def test_tags_semicolon_separated
+    assert_parses(parser.tags, "tag1 1; tag2 2; tag3 3")
   end
 end
