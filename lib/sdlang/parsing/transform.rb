@@ -24,7 +24,7 @@ module SDLang
       timezone: simple(:timezone)
     ) { SDLang::AST::DateTime.new(date, time, timezone)}
 
-    # regular tag
+    # regular tag with namespace
     rule(
       identifier: simple(:name),
       namespace: simple(:namespace),
@@ -32,6 +32,14 @@ module SDLang
       attributes: sequence(:attributes),
       children: subtree(:children)
     ) { SDLang::AST::Tag.new(name, namespace, values, attributes, children) }
+
+    # regular tag without namespace
+    rule(
+      identifier: simple(:name),
+      values: sequence(:values),
+      attributes: sequence(:attributes),
+      children: subtree(:children)
+    ) { SDLang::AST::Tag.new(name, nil, values, attributes, children) }
 
     # anonymous tag
     rule(
