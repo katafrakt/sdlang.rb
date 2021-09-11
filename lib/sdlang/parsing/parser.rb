@@ -32,7 +32,7 @@ module SDLang
     }
 
     # date and time
-    rule(:datetime) { date >> time }
+    rule(:datetime) { date >> sep >> time }
     rule(:date) {
       (match('[0-9]').repeat(4,4) >> str('/') >>
         match('[0-9]').repeat(2,2) >> str('/') >>

@@ -11,18 +11,18 @@ module SDLang
     rule(date: simple(:date)) { SDLang::AST::Date.new(date) }
     rule(datetime: simple(:datetime)) { SDLang::AST::DateTime.new(datetime) }
 
-    # time
-    rule(
-      time: simple(:time),
-      timezone: simple(:timezone)
-    ) { SDLang::AST::Time.new(time, timezone) }
-
     # datetime
     rule(
       date: simple(:date),
       time: simple(:time),
       timezone: simple(:timezone)
     ) { SDLang::AST::DateTime.new(date, time, timezone)}
+
+    # time
+    rule(
+      time: simple(:time),
+      timezone: simple(:timezone)
+    ) { SDLang::AST::Time.new(time, timezone) }
 
     # regular tag with namespace
     rule(
