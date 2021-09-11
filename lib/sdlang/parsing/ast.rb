@@ -1,24 +1,30 @@
-require 'date'
-require 'time'
-require 'tzinfo'
+require "date"
+require "time"
+require "tzinfo"
 
 module SDLang
   module AST
     Integer = Struct.new(:int) do
-      def eval; int.to_i; end
+      def eval
+        int.to_i
+      end
     end
 
     String = Struct.new(:string) do
-      def eval; string.to_s; end
+      def eval
+        string.to_s
+      end
     end
 
     Boolean = Struct.new(:value) do
-      def eval; value; end
+      def eval
+        value
+      end
     end
 
     Date = Struct.new(:date) do
       def eval
-        ::Date.strptime(date, '%Y/%m/%d')
+        ::Date.strptime(date, "%Y/%m/%d")
       end
     end
 

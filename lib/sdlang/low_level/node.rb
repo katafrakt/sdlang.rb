@@ -6,7 +6,7 @@ module SDLang
 
     attr_reader :children, :name
 
-    def initialize(name:, attributes: {}, children: NodeSet.new, namespace: '', values: [])
+    def initialize(name:, attributes: {}, children: NodeSet.new, namespace: "", values: [])
       @name = name
       @attributes = attributes
       @children = children
@@ -18,9 +18,7 @@ module SDLang
       attributes[name.to_s]
     end
 
-    def values
-      @values
-    end
+    attr_reader :values
 
     def value
       raise MultipleValues if values.length > 1

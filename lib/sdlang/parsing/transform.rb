@@ -1,5 +1,5 @@
-require 'parslet'
-require 'sdlang/parsing/ast'
+require "parslet"
+require "sdlang/parsing/ast"
 
 module SDLang
   class Transform < Parslet::Transform
@@ -16,7 +16,7 @@ module SDLang
       date: simple(:date),
       time: simple(:time),
       timezone: simple(:timezone)
-    ) { SDLang::AST::DateTime.new(date, time, timezone)}
+    ) { SDLang::AST::DateTime.new(date, time, timezone) }
 
     # time
     rule(
@@ -46,7 +46,7 @@ module SDLang
       values: sequence(:values),
       attributes: sequence(:attributes),
       children: subtree(:children)
-    ) { SDLang::AST::Tag.new('', nil, values, attributes, children) }
+    ) { SDLang::AST::Tag.new("", nil, values, attributes, children) }
 
     rule(
       identifier: simple(:name),

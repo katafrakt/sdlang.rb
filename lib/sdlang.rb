@@ -1,7 +1,7 @@
-require 'sdlang/version'
-require 'sdlang/parsing/parser'
-require 'sdlang/parsing/transform'
-require 'sdlang/low_level/ast_to_node'
+require "sdlang/version"
+require "sdlang/parsing/parser"
+require "sdlang/parsing/transform"
+require "sdlang/low_level/ast_to_node"
 
 module SDLang
   def self.parse(doc)

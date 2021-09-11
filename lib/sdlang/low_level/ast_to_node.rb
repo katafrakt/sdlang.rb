@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'sdlang/low_level/node'
-require 'sdlang/low_level/node_set'
+require "sdlang/low_level/node"
+require "sdlang/low_level/node_set"
 
 module SDLang
   module AstToNode
