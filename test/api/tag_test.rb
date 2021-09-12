@@ -2,7 +2,7 @@ require "minitest/autorun"
 require "sdlang"
 require_relative "../test_helper"
 
-describe SDLang::Node do
+describe SDLang::Tag do
   def cached_result
     @cached_result ||= begin
       input = File.read(File.join(__dir__, "../fixtures", "website_example.sdl"))
@@ -11,7 +11,7 @@ describe SDLang::Node do
   end
 
   def node(name)
-    cached_result.nodes.detect { |node| node.name == name.to_s }
+    cached_result.find(name)
   end
 
   describe "#values" do
@@ -34,7 +34,7 @@ describe SDLang::Node do
     end
 
     it "raises exception with multiple values" do
-      _(-> { node("bookmarks").value }).must_raise(SDLang::Node::MultipleValues)
+      _(-> { node("bookmarks").value }).must_raise(SDLang::Tag::MultipleValues)
     end
 
     it "work when node has attributes" do
