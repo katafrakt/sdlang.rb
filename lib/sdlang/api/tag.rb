@@ -21,8 +21,8 @@ module SDLang
         end
 
         def map_children(children)
-          return [] unless children
-          children.map(&method(:call))
+          children ||= []
+          TagList.new(children.map(&method(:call)))
         end
       end
     end
@@ -39,7 +39,7 @@ module SDLang
 
     attr_reader :children, :name, :values, :attributes
 
-    def initialize(name:, attributes: {}, children: NodeSet.new, namespace: "", values: [])
+    def initialize(name:, attributes: {}, children: TagList.new([]), namespace: "", values: [])
       @name = name
       @namespace = namespace
       @attributes = attributes

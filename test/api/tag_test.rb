@@ -67,4 +67,18 @@ describe SDLang::Tag do
       _(node("author").attribute(:email)).must_equal("peter@example.org")
     end
   end
+
+  describe "#children" do
+    it "returns one element" do
+      _(node("contents").children.size).must_equal(1)
+    end
+
+    it "returns a TagList" do
+      _(node("contents").children).must_be_kind_of(SDLang::TagList)
+    end
+
+    it "returns empty TagList for child-less nodes" do
+      _(node("title").children.size).must_equal(0)
+    end
+  end
 end
