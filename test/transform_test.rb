@@ -21,6 +21,12 @@ class TransformTest < Minitest::Test
     assert_equal([2], tag.values)
   end
 
+  def test_float
+    result = transform("priority 1.2")
+    tag = result.first
+    assert_equal([1.2], tag.values)
+  end
+
   def test_string
     result = transform('sdlang "yes"')
     tag = result.first

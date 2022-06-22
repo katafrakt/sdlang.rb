@@ -5,6 +5,7 @@ module SDLang
   class Transform < Parslet::Transform
     # simple things
     rule(integer: simple(:integer)) { SDLang::AST::Integer.new(integer) }
+    rule(float: simple(:float)) { SDLang::AST::Float.new(float) }
     rule(string: simple(:string)) { SDLang::AST::String.new(string) }
     rule(true: simple(:true)) { SDLang::AST::Boolean.new(true) }
     rule(false: simple(:false)) { SDLang::AST::Boolean.new(false) }

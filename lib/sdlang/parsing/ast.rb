@@ -10,6 +10,12 @@ module SDLang
       end
     end
 
+    Float = Struct.new(:float) do
+      def eval
+        float.to_f
+      end
+    end
+
     String = Struct.new(:string) do
       def eval
         string.to_s

@@ -1,6 +1,6 @@
 file ".crash_dump.log" readonly=true hidden=true owner="system"
 file "resume.docx"
 directory "work" {
-  file "passwords.txt" hidden=false
+  file "passwords.txt" hidden=false priority=1.2
   file "totally_not_a_virus.exe" executable=true
 }

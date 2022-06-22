@@ -28,6 +28,11 @@ class SubparsersTest < Minitest::Test
     assert_parses(parser.string, input)
   end
 
+  # floats
+  def test_float
+    assert_parses(parser.float, "1.22")
+  end
+
   # comments
   def test_single_line_comment_with_hash
     assert_parses(parser.comment, "# this is a comment")

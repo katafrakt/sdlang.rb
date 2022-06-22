@@ -38,6 +38,18 @@ class ParserTest < Minitest::Test
     assert_equal("2", value[:integer].to_s)
   end
 
+  def test_simple_tag_float_value
+    result = parse_sdl("priority 1.55")
+    assert_equal(1, result.length)
+
+    tag = result.first
+    tag_name = tag[:identifier]
+    value = tag[:values].first
+
+    assert_equal("priority", tag_name)
+    assert_equal("1.55", value[:float].to_s)
+  end
+
   def test_two_tags
     input = %(
           sdlang "yes"

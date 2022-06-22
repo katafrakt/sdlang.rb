@@ -1,3 +1,7 @@
+/* 
+	This is an example from https://sdlang.org/
+*/
+
 // This is a node with a single string value
 title "Hello, World"
 

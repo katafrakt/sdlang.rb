@@ -31,6 +31,12 @@ module SDLang
       ).as(:integer)
     }
 
+    # float
+    rule(:float_sep) { str(".") }
+    rule(:float) {
+      (digit.repeat >> float_sep >> digit.repeat).as(:float)
+    }
+
     # date and time
     rule(:datetime) { date >> sep >> time }
     rule(:date) {
@@ -54,7 +60,7 @@ module SDLang
     rule(:null) { str("null") }
 
     rule(:value) {
-      datetime | date | time |
+      float | datetime | date | time |
         string | boolean | null | integer
     }
 
