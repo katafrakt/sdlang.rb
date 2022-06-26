@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module SDLang
+  # Class representing a single tag in a SDLang document.
+  # The API is loosely based on [the implememntation in D](https://github.com/Abscissa/SDLang-D).
   class Tag
     # A helper module handling conversion from AST hash part to a proper Tag object
     module AstToTag
@@ -22,7 +24,7 @@ module SDLang
 
         def map_children(children)
           children ||= []
-          TagList.new(children.map(&method(:call)))
+          children.map(&method(:call))
         end
       end
     end
@@ -34,12 +36,13 @@ module SDLang
     #
     # Converts internal AST representation to a Tag object
     def self.from_ast(ast)
+      ast = SDLang::AST::Tag.init_only_with_children(ast)
       AstToTag.call(ast)
     end
 
-    attr_reader :children, :name, :values, :attributes
+    attr_reader :children, :name, :namespace, :values, :attributes
 
-    def initialize(name:, attributes: {}, children: TagList.new([]), namespace: "", values: [])
+    def initialize(name:, attributes: {}, children: [], namespace: "", values: [])
       @name = name
       @namespace = namespace
       @attributes = attributes
@@ -55,6 +58,10 @@ module SDLang
 
     def attribute(name)
       attributes[name.to_s]
+    end
+
+    def get_tag(name)
+      @children.detect { |tag| tag.name == name.to_s }
     end
   end
 end

@@ -1,7 +1,7 @@
 require "sdlang/version"
 require "sdlang/parsing/parser"
 require "sdlang/parsing/transform"
-require "sdlang/api/tag_list"
+require "sdlang/api/tag"
 
 module SDLang
   def self.parse(doc)
@@ -10,6 +10,6 @@ module SDLang
     parsed = parser.parse(doc)
     ast = transform.apply(parsed)
     tags = ast.map(&:eval)
-    SDLang::TagList.from_ast(tags)
+    SDLang::Tag.from_ast(tags)
   end
 end

@@ -51,6 +51,10 @@ module SDLang
     end
 
     Tag = Struct.new(:name, :namespace, :values, :attributes, :children) do
+      def self.init_only_with_children(children)
+        new("", "", [], [], children)
+      end
+
       def eval
         Tag.new(
           name.to_s,

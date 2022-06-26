@@ -11,7 +11,7 @@ describe SDLang::Tag do
   end
 
   def node(name)
-    cached_result.find(name)
+    cached_result.get_tag(name)
   end
 
   describe "#values" do
@@ -71,10 +71,6 @@ describe SDLang::Tag do
   describe "#children" do
     it "returns one element" do
       _(node("contents").children.size).must_equal(1)
-    end
-
-    it "returns a TagList" do
-      _(node("contents").children).must_be_kind_of(SDLang::TagList)
     end
 
     it "returns empty TagList for child-less nodes" do
